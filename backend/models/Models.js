@@ -19,7 +19,6 @@ const UserSchema = new Schema ({
         type: String,
         required: true,
         set : (password) => { return bcrypt.hashSync(password, 10) },
-        get : (password) => { return bcrypt.compareSync(password, this.password) }
     },
     created_at : {
         type: Date,
@@ -61,9 +60,6 @@ const BlogSchema = new Schema ({
 });
 
 // Add indexes to improve query performance
-// For UserSchema
-UserSchema.index({ email: 1 }, { unique: true });
-
 // For BlogSchema
 BlogSchema.index({ author: 1 });
 BlogSchema.index({ status: 1 });
