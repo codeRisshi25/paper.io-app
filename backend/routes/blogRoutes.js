@@ -1,18 +1,17 @@
 import express from 'express';
+import blogController from '../controllers/blogController.js';
+import authMiddleware from '../middleware/auth.js';
 
 const router = express.Router();
 
-const saveDraft = router.post('/save-draft', saveController);
-const publish = router.post('/publish', saveController);
-const getBlogs = router.get('/get-blogs', saveController);
-const getBlog = router.get('/get-blog/:id', saveController);
-const deleteBlog = router.delete('/delete-blog/:id', saveController);
+// Protected routes (require authentication)
+router.post('/drafts', authMiddleware, blogController.saveDraft);
+router.post('/publish/:blogId', authMiddleware, blogController.publishBlog);
+router.get('/my-blogs', authMiddleware, blogController.getUserBlogs);
+router.delete('/:blogId', authMiddleware, blogController.deleteBlog);
 
+// Public routes
+router.get('/', blogController.getAllPublishedBlogs);
+router.get('/:blogId', blogController.getBlogById);
 
-export default {
-    saveDraft,
-    publish,
-    getBlogs,
-    getBlog,
-    deleteBlog
-};
+export default router;

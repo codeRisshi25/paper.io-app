@@ -20,10 +20,6 @@ const UserSchema = new Schema ({
         required: true,
         set : (password) => { return bcrypt.hashSync(password, 10) },
     },
-    created_at : {
-        type: Date,
-        default : Date.now
-    }
 },{ timestamps: true });
 
 const BlogSchema = new Schema ({
@@ -47,10 +43,6 @@ const BlogSchema = new Schema ({
         enum : ['draft', 'published'],
         required: true,
         default: 'draft',
-    },
-    created_at : {
-        type: Date,
-        default : Date.now
     },
     author : {
         type : mongoose.Schema.Types.ObjectId,
