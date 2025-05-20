@@ -30,7 +30,7 @@ Paper.io is a full-stack blogging platform that makes it easy to create, edit, a
 - Express.js
 - MongoDB
 - JWT Authentication
-- Cookie-based sessions
+- Cookie-based sessionsPublishing.
 
 ## Project Structure
 
