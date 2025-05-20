@@ -62,18 +62,23 @@ class AuthController {
       res.status(500).send("Server error");
     }
   }
-async logout(req, res) {
+  async logout(req, res) {
     try {
-        res.clearCookie('token').json({
-            success: true,
-            message: "User logged out successfully"
+      res
+        .clearCookie("token", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        })
+        .json({
+          success: true,
+          message: "User logged out successfully",
         });
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server error");
+      console.error(err.message);
+      res.status(500).send("Server error");
     }
+  }
 }
-}
-
 
 export default new AuthController();

@@ -1,12 +1,11 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
 const authMiddleware = (req, res, next) => {
     let token = req.cookies.token || null;
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        token = authHeader.split(' ')[1];
-    }
+
     if (!token) {
         return res.status(401).json({ message: 'No token, authorization denied' });
     }
@@ -16,7 +15,7 @@ const authMiddleware = (req, res, next) => {
     
     try {
         // Verify the token
-        const decoded = jwt.verify(token.trim(), secretKey);
+        const decoded = jwt.verify(token, secretKey);
         req.user = decoded.user;
         next();
     } catch (err) {

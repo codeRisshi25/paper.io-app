@@ -22,7 +22,8 @@ class AuthService {
     await user.save();
 
     // Generate token
-    const token = this.generateToken(user._id);
+    console.log(user._id);
+    const token = await this.generateToken(user._id);
     return { user, token };
   }
 
@@ -34,13 +35,13 @@ class AuthService {
       throw new Error('Invalid credentials');
     }
 
-    const isMatch = await bcrypt.compareSync(password, user.password);
+    const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
       throw new Error('Invalid credentials');
     }
 
     // Generate token
-    const token = this.generateToken(user.id);
+    const token = await this.generateToken(user.id);
     return { user, token };
   }
 
