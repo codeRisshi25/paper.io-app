@@ -7,7 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { IconHome, IconEdit, IconSettings, IconFileText, IconUser, IconLogout } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 function Logo() {
     return (
@@ -117,7 +116,7 @@ export default function DashboardLayout({
                 </SidebarBody>
             </Sidebar>
             
-            <main className="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
+            <main className="flex-1 bg-white dark:bg-slate-200 p-12 overflow-auto rounded-tl-lg">
                 {children}
             </main>
         </div>
