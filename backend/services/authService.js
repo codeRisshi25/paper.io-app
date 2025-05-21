@@ -17,7 +17,7 @@ class AuthService {
       email,
       password
     });
-
+    
     // Save user to database
     await user.save();
 

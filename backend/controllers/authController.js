@@ -14,6 +14,7 @@ class AuthController {
         })
         .json({
           success: true,
+          user: user,
           message: "User registered successfully",
         });
     } catch (err) {
@@ -28,7 +29,7 @@ class AuthController {
   // login controller
   async login(req, res) {
     try {
-      const { token } = await authService.loginUser(req.body);
+      const { user, token  } = await authService.loginUser(req.body);
       res
         .status(201)
         .cookie("token", token, {
@@ -39,6 +40,7 @@ class AuthController {
         })
         .json({
           success: true,
+          user,
           message: "User logged in successfully",
         });
     } catch (err) {
