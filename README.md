@@ -1,6 +1,7 @@
 # Paper.io - Modern Blog Editing/Publishing Platform
 
-![Paper.io Logo](https://placeholder.com/logo)
+
+![Paper.io Logo](https://github.com/user-attachments/assets/2d1bb8de-76cf-435d-8f2e-6632cde7a62d)
 
 ## Overview
 
