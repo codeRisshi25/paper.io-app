@@ -15,9 +15,9 @@ function Logo() {
             <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="font-medium whitespace-pre text-black dark:text-white"
+                className="text-2xl font-medium whitespace-pre text-black dark:text-white"
             >
-                BlogForge
+                Paper IO
             </motion.span>
         </a>
     );
@@ -34,8 +34,8 @@ function AppSidebar() {
             icon: <IconHome className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
         },
         {
-            label: "My Posts",
-            href: "/dashboard/posts",
+            label: "My Blogs",
+            href: "/dashboard/blogs",
             icon: <IconFileText className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
         },
         {
@@ -109,14 +109,14 @@ export default function DashboardLayout({
     if (!user) return null;
 
     return (
-        <div className="flex h-screen w-full">
+        <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden md:dark:bg-slate-900">
             <Sidebar open={open} setOpen={setOpen} animate={true}>
                 <SidebarBody className="justify-between dark:bg-slate-900">
                     <AppSidebar />
                 </SidebarBody>
             </Sidebar>
             
-            <main className="flex-1 bg-white dark:bg-slate-200 p-12 overflow-auto rounded-tl-lg">
+            <main className="flex-1 bg-white dark:bg-slate-200 p-4 md:p-12 overflow-auto rounded-tl-lg">
                 {children}
             </main>
         </div>

@@ -6,7 +6,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 const baseUrl = "http://localhost:3000";
 const USER_STORAGE_KEY = "paperio_user";
 
-type User = { id: string; name: string, email: string };
+type User = { id: string; name: string, email: string , image: string | null }; 
 
 interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
