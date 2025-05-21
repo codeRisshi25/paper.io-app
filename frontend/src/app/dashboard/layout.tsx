@@ -1,0 +1,125 @@
+'use client';
+
+import React, { useState } from "react";
+import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/use-auth";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { IconHome, IconEdit, IconSettings, IconFileText, IconUser, IconLogout } from "@tabler/icons-react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+function Logo() {
+    return (
+        <a href="/dashboard" className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black dark:text-white">
+            <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-gradient-to-br from-violet-500 to-pink-500" />
+            <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="font-medium whitespace-pre text-black dark:text-white"
+            >
+                BlogForge
+            </motion.span>
+        </a>
+    );
+}
+
+function AppSidebar() {
+    const { user, logout } = useAuth();
+    const pathname = usePathname();
+    
+    const links = [
+        {
+            label: "Dashboard",
+            href: "/dashboard",
+            icon: <IconHome className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        },
+        {
+            label: "My Posts",
+            href: "/dashboard/posts",
+            icon: <IconFileText className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        },
+        {
+            label: "Create Post",
+            href: "/dashboard/create",
+            icon: <IconEdit className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        },
+        {
+            label: "Profile",
+            href: "/dashboard/profile",
+            icon: <IconUser className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        }
+    ];
+
+    return (
+        <div className="flex flex-col h-full justify-between">
+            <div className="flex-1 flex flex-col overflow-x-hidden overflow-y-auto">
+                <Logo />
+                
+                <div className="mt-8 flex flex-col gap-2">
+                    {links.map((link) => (
+                        <SidebarLink 
+                            key={link.href} 
+                            link={link} 
+                            className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md" : ""}
+                        />
+                    ))}
+                </div>
+            </div>
+            
+            <div>
+                <SidebarLink
+                    link={{
+                        label: user?.name || "User",
+                        href: "/dashboard/profile",
+                        icon: (
+                            <div className="w-7 h-7 shrink-0 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center">
+                                {user?.name?.charAt(0) || "U"}
+                            </div>
+                        ),
+                    }}
+                />
+            </div>
+        </div>
+    );
+}
+
+export default function DashboardLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    const router = useRouter();
+    const { user, loading } = useAuth();
+    const [open, setOpen] = useState(true);
+    
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/auth/login');
+        }
+    }, [user, loading, router]);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-neutral-800"></div>
+            </div>
+        );
+    }
+
+    if (!user) return null;
+
+    return (
+        <div className="flex h-screen w-full">
+            <Sidebar open={open} setOpen={setOpen} animate={true}>
+                <SidebarBody className="justify-between">
+                    <AppSidebar />
+                </SidebarBody>
+            </Sidebar>
+            
+            <main className="flex-1 bg-white dark:bg-neutral-900 p-6 overflow-auto">
+                {children}
+            </main>
+        </div>
+    );
+}
