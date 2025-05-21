@@ -35,7 +35,7 @@ export default function Dashboard() {
           )}
         </div>
         
-        <Button onClick={logout} variant="outline" className="h-10 dark:bg-background dark:text-white dark:border-background dark:hover:bg-background/60">
+        <Button onClick={logout} variant="outline" className="h-10 dark:bg-slate-900 dark:text-white dark:border-white dark:hover:bg-slate-900/60">
         Logout
         </Button>
       </div>

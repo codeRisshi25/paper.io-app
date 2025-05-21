@@ -124,17 +124,14 @@ class BlogService {
     }
   }
 
-  async getUserBlogs(userId, options = {}) {
+  async getUserBlogs(userId) {
     try {
-      const { status } = options;
 
-      // Build query
       const query = { author: userId };
-      if (status) query.status = status;
-
       // Get all blogs without pagination
-      const blogs = await Blog.find(query).sort({ created_at: -1 });
-
+      const blogs = await Blog.find(query)
+        .select('-content')
+        .sort({ created_at: -1 });
       return { blogs };
     } catch (error) {
       console.error("Error fetching user blogs:", error);
