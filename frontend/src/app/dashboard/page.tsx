@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PlusIcon } from "lucide-react"; // Import for the plus icon
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -22,7 +23,7 @@ export default function Dashboard() {
           <h2 className="text-m dark:text-black">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</h2>
           <p className="text-neutral-500 font-mono">{user?.email}</p>
         </div>
-        <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+        <div className="h-10 w-10 rounded-full bg-slate-300 text-primary-foreground flex items-center justify-center">
           {user?.image ? (
             <img 
               src={user.image} 
@@ -41,33 +42,47 @@ export default function Dashboard() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card>
+        <Card className="dark:bg-slate-900 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
           <CardHeader>
-            <CardTitle>Posts</CardTitle>
+            <CardTitle className="text-lg">Posts</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>You have 0 published posts</p>
+          <CardContent className="pt-2">
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-bold mb-2">0</span>
+              <p className="text-sm text-muted-foreground">published posts</p>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="dark:bg-slate-900 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
           <CardHeader>
-            <CardTitle>Drafts</CardTitle>
+            <CardTitle className="text-lg">Drafts</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>You have 0 draft posts</p>
+          <CardContent className="pt-2">
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-bold mb-2">0</span>
+              <p className="text-sm text-muted-foreground">draft posts</p>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="dark:bg-slate-900 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
           <CardHeader>
-            <CardTitle>Views</CardTitle>
+            <CardTitle className="text-lg">Views</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>Your posts have 0 total views</p>
+          <CardContent className="pt-2">
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-bold mb-2">0</span>
+              <p className="text-sm text-muted-foreground">total views</p>
+            </div>
           </CardContent>
         </Card>
       </div>
+      
+      <Button variant="default" className="w-full py-6 mt-4 text-lg font-medium flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-300 transition duration-200">
+        <PlusIcon className="h-5 w-5" />
+        Create New Blog
+      </Button>
     </div>
   );
 }

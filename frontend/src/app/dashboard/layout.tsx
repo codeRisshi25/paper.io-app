@@ -60,7 +60,7 @@ function AppSidebar() {
                         <SidebarLink 
                             key={link.href} 
                             link={link} 
-                            className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md" : ""}
+                            className={pathname === link.href ? "bg-neutral-200 dark:bg-slate-700 rounded-md" : ""}
                         />
                     ))}
                 </div>
@@ -111,7 +111,7 @@ export default function DashboardLayout({
     return (
         <div className="flex h-screen w-full">
             <Sidebar open={open} setOpen={setOpen} animate={true}>
-                <SidebarBody className="justify-between">
+                <SidebarBody className="justify-between dark:bg-slate-900">
                     <AppSidebar />
                 </SidebarBody>
             </Sidebar>
