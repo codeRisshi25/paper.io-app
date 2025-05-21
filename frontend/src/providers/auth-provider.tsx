@@ -27,10 +27,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetch(`${baseUrl}/api/auth/me`, { credentials: 'include' })
       .then(res => res.ok ? res.json() : Promise.reject())
-      .then(data => {
-        setUser(data.user);
+      .then(user => {
+        setUser(user);
         // Only redirect if user exists
-        if (data.user) {
+        if (user) {
           router.replace("/dashboard");
         }
       })

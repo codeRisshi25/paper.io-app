@@ -14,9 +14,10 @@ class AuthController {
         })
         .json({
           success: true,
-          user: user,
+          user,
           message: "User registered successfully",
         });
+      console.log("new user register : ",user.name)
     } catch (err) {
       console.error(err.message);
       if (err.message === "User already exists") {
@@ -43,6 +44,7 @@ class AuthController {
           user,
           message: "User logged in successfully",
         });
+      console.log("User login : ",user.name)
     } catch (err) {
       console.error(err.message);
       if (err.message === "Invalid credentials") {
@@ -76,6 +78,7 @@ class AuthController {
           success: true,
           message: "User logged out successfully",
         });
+    console.log("User logout : ",req.user.id)
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
