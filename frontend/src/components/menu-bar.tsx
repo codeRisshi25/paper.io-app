@@ -11,14 +11,16 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
+  List,
+  ListOrdered,
 } from "lucide-react";
 import { Toggle } from "./ui/toggle";
 import { Editor } from "@tiptap/react";
 
-export default function MenuBar({ editor } : { editor: Editor | null} ) {
-    if (!editor) {
-        return null;
-    }
+export default function MenuBar({ editor }: { editor: Editor | null }) {
+  if (!editor) {
+    return null;
+  }
   const Options = [
     {
       icon: <Heading1 size={18} />,
@@ -63,12 +65,6 @@ export default function MenuBar({ editor } : { editor: Editor | null} ) {
       tooltip: "Strike",
     },
     {
-      icon: <Highlighter size={18} />,
-      onClick: () => editor.chain().focus().toggleHighlight().run(),
-      isActive: editor.isActive("highlight"),
-      tooltip: "Highlight",
-    },
-    {
       icon: <AlignLeft size={18} />,
       onClick: () => editor.chain().focus().setTextAlign("left").run(),
       isActive: editor.isActive({ textAlign: "left" }),
@@ -92,21 +88,33 @@ export default function MenuBar({ editor } : { editor: Editor | null} ) {
       isActive: editor.isActive({ textAlign: "justify" }),
       tooltip: "Justify",
     },
+    {
+      icon: <List size={18} />,
+      onClick: () => editor.chain().focus().toggleBulletList().run(),
+      isActive: editor.isActive("bulletList"),
+      tooltip: "Bullet List",
+    },
+    {
+      icon: <ListOrdered size={18} />,
+      onClick: () => editor.chain().focus().toggleOrderedList().run(),
+      isActive: editor.isActive("orderedList"),
+      tooltip: "Ordered List",
+    },
   ];
   return (
     <div className="flex justify-center w-full">
-        <div className="text-black p-2 my-5 rounded-lg border border-slate-200 shadow-sm bg-white flex  justify-center gap-1 z-50 max-w-lg mx-auto">
-            {Options.map((option, index) => (
-                <Toggle
-                    key={index}
-                    onPressedChange={option.onClick}
-                    pressed={option.isActive}
-                    title={option.tooltip}
-                >
-                    {option.icon}
-                </Toggle>
-            ))}
-        </div>
+      <div className="text-black p-2 my-5 rounded-lg border border-slate-200 shadow-sm bg-white inline-flex flex-wrap justify-center gap-1 z-50 mx-auto">
+        {Options.map((option, index) => (
+          <Toggle
+            key={index}
+            onPressedChange={option.onClick}
+            pressed={option.isActive}
+            title={option.tooltip}
+          >
+            {option.icon}
+          </Toggle>
+        ))}
+      </div>
     </div>
   );
 }

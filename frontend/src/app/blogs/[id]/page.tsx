@@ -9,9 +9,13 @@ export default async function PublicBlogPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const blog = await getBlogById(id);
-
-  if (!blog || blog.status !== "published") {
+  let blog;
+  try {
+    blog = await getBlogById(id);
+    if (!blog || blog.status !== "published") {
+      return notFound();
+    }
+  } catch (error) {
     return notFound();
   }
 return (

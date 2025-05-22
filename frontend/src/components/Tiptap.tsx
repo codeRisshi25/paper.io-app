@@ -1,34 +1,56 @@
-'use client'
+"use client";
 
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import MenuBar from './menu-bar'
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
+import MenuBar from "./menu-bar";
+import Placeholder from "@tiptap/extension-placeholder";
 
 export default function Tiptap() {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit.configure({
+        history: false,
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc list-outside pl-4",
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal list-outside pl-4",
+          },
+        },
+      }),
+      Placeholder.configure({
+        placeholder: "Whats the next big idea?",
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+    ],
     content: `
-    <h1>Title</h1>
-      `,
+        `,
     editorProps: {
       attributes: {
-        class: 'min-h-[80vh] focus:outline-none text-slate-900 font-mono font-normal px-8',
+        class:
+          "border border-slate-800 rounded-md dark:bg-slate-300 min-h-[40vh] md:min-h-[80vh] w-full p-4 focus:outline-none text-slate-700 text-lg font-mono font-normal prose prose-sm sm:prose lg:prose-lg lg:px-50 overflow-auto max-h-[80vh]",
       },
-    }
-  })
+    },
+  });
   if (!editor) {
-    return null
+    return null;
   }
 
   return (
     <div>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
-    </div>   
-  )
+    </div>
+  );
 }
 
 // You need to import the cn utility at the top of your file
 function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
