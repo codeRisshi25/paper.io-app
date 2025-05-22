@@ -45,14 +45,21 @@ export default async function MyBlogsPage() {
   if (!blogs || blogs.length === 0) {
     return (
       <div className="p-6 text-center">
-        <h1 className="text-2</Button>xl font-semibold mb-4 text-black dark:text-white">
+        <h1 className="text-xl sm:text-2xl font-bold text-black dark:text-black mb-4">
           My Blogs
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="font-mono text-zinc-800 text-sm mb-4">
           You haven't created any blogs yet.
         </p>
-        <Button asChild className="mt-4">
-          <Link href="/dashboard/create">Create Your First Blog</Link>
+        <Button 
+          variant="default"
+          className="py-6 text-lg font-medium flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-300 transition duration-200"
+          asChild
+        >
+          <Link href="/dashboard/create">
+            <PlusIcon className="h-5 w-5" />
+            Create Your First Blog
+          </Link>
         </Button>
       </div>
     );
