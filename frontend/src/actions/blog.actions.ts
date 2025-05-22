@@ -10,7 +10,7 @@ interface ApiBlog {
   status: 'draft' | 'published';
   updatedAt: string;
   tags: string[]; 
-  author: string;
+  author: {name : string , email : string};
   createdAt: string;
 }
 
@@ -49,4 +49,26 @@ export async function fetchUserBlogs(): Promise<ApiBlog[]> { // Return type upda
     ...blog,
     id: blog._id 
   }));
+}
+
+export async function getBlogById(id: string): Promise<ApiBlog> {  // Return type changed to single blog
+  const res = await fetch(`${process.env.API_PUBLIC_API_URL}/api/blogs/${id}`, {
+    cache: 'no-store',
+  });
+  
+  if (!res.ok) {
+    const errorBody = await res.text();
+    throw new Error(`Failed to fetch blog: ${res.status} ${res.statusText} - ${errorBody}`);
+  }
+  
+  const data = await res.json();
+  
+  if (!data.success || !data.blog) {
+    throw new Error('Failed to fetch blog: API response format is incorrect.');
+  }
+  
+  return {
+    ...data.blog,
+    id: data.blog._id
+  };
 }

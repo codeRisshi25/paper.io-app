@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { IconHome, IconEdit, IconSettings, IconFileText, IconUser, IconLogout } from "@tabler/icons-react";
 import { motion } from "framer-motion";
+import { Toaster } from "@/components/ui/sonner";
 
 function Logo() {
     return (
@@ -128,6 +129,7 @@ export default function DashboardLayout({
             
             <main className="flex-1 bg-white dark:bg-slate-200 p-4 md:p-12 overflow-auto rounded-tl-lg">
                 {children}
+                <Toaster />
             </main>
         </div>
     );

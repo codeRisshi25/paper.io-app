@@ -64,7 +64,7 @@ class AuthService {
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '1h' },
+        { expiresIn: '8h' },
         (err, token) => {
           if (err) reject(err);
           resolve(token);

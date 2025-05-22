@@ -17,7 +17,7 @@ interface Blog {
   status: "draft" | "published";
   updatedAt: string;
   tags: string[];
-  author: string;
+  author: {name : string , email : string};
   createdAt: string;
   id?: string;
 }
@@ -140,7 +140,6 @@ export default async function MyBlogsPage() {
           >
             <Link href={`/blogs/${blog._id || blog.id}`}>
             {" "}
-            {/* Adjust link as per your routing */}
             <EyeIcon className="mr-2 h-4 w-4" /> View Blog
             </Link>
           </Button>
@@ -148,7 +147,6 @@ export default async function MyBlogsPage() {
           <Button variant="default" size="sm" asChild className="w-full">
             <Link href={`/dashboard/edit/${blog._id || blog.id}`}>
             {" "}
-            {/* Adjust link for editing */}
             <PencilIcon className="mr-2 h-4 w-4" /> Edit Draft
             </Link>
           </Button>
