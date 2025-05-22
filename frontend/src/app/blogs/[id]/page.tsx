@@ -1,7 +1,7 @@
 // app/blogs/[id]/page.tsx
 import { getBlogById } from "@/actions/blog.actions";
 import { notFound } from "next/navigation";
-import { TopNavigation } from "@/app/dashboard/create/TopNavigation";
+import BlogHeader from "@/components/BlogHeader";
 
 export default async function PublicBlogPage({
   params,
@@ -15,8 +15,8 @@ export default async function PublicBlogPage({
     return notFound();
   }
 return (
-    <div className="flex flex-col h-screen dark:bg-slate-100 text-black">
-        <TopNavigation />
+    <div className="flex flex-col min-h-screen dark:bg-slate-100 text-black">
+        <BlogHeader />
         <article className="max-w-3xl mx-auto py-4 md:py-8 px-4 md:px-0">
             <div className="flex items-center mb-3 md:mb-4">
                 {blog.tags && blog.tags.length > 0 && (
@@ -56,6 +56,22 @@ return (
             )}
             <div className="prose prose-sm md:prose-base lg:prose-lg max-w-none dark:prose-dark" dangerouslySetInnerHTML={{ __html: blog.content || "" }} />
         </article>
+        <footer className="mt-auto py-6 bg-gray-100 dark:bg-slate-200">
+            <div className="max-w-3xl mx-auto px-4 md:px-0">
+                <div className="flex flex-col md:flex-row justify-between items-center">
+                    <div className="mb-4 md:mb-0">
+                        <p className="text-sm text-gray-600 dark:text-slate-600">
+                            © 2025 Paper io. All rights reserved.
+                        </p>
+                    </div>
+                    <div className="flex gap-4">
+                        <p className="text-sm text-gray-600 dark:text-slate-600 mt-1">
+                            Made with <span className="text-red-600">❤️</span> by <a href="https://github.com/codeRisshi25" className="text-blue-600 hover:text-blue-800 dark:text-blue-700 dark:hover:text-blue-900" target="_blank" rel="noopener noreferrer">risshi</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 );
 }

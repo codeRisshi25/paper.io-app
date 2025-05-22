@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paper.io - Modern Blog Publishing Platform",
-  description: "Create, edit, and publish stunning blogs with Paper.io",
+  title: "Paper io - Modern Blog Publishing Platform",
+  description: "Create, edit, and publish stunning blogs with Paper io",
 };
 
 export default function RootLayout({

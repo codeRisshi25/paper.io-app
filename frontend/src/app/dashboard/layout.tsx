@@ -18,7 +18,7 @@ function Logo() {
                 animate={{ opacity: 1 }}
                 className="text-2xl font-medium whitespace-pre text-black dark:text-white"
             >
-                Paper IO
+                Paper io
             </motion.span>
         </a>
     );
