@@ -49,7 +49,6 @@ function AppSidebar() {
             icon: <IconUser className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
         }
     ];
-
     return (
         <div className="flex flex-col h-full justify-between">
             <div className="flex-1 flex flex-col overflow-x-hidden overflow-y-auto">
@@ -63,16 +62,27 @@ function AppSidebar() {
                             className={pathname === link.href ? "bg-neutral-200 dark:bg-slate-700 rounded-md" : ""}
                         />
                     ))}
+                        <SidebarLink
+                            link={{
+                                label: "Logout",
+                                href: "/",
+                                icon: <IconLogout className="w-5 h-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+                            }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                logout();
+                            }}
+                        />
                 </div>
             </div>
             
-            <div>
+            <div className="flex flex-col gap-2">
                 <SidebarLink
                     link={{
                         label: user?.name || "User",
                         href: "/dashboard/profile",
                         icon: (
-                            <div className="w-7 h-7 shrink-0 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center">
+                            <div className="w-7 h-7 shrink-0 rounded-full bg-neutral-200 text-black flex items-center justify-center">
                                 {user?.name?.charAt(0) || "U"}
                             </div>
                         ),

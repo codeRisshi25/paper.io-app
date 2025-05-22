@@ -6,7 +6,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 const baseUrl = "http://localhost:3000";
 const USER_STORAGE_KEY = "paperio_user";
 
-type User = { id: string; name: string, email: string , image: string | null }; 
+type User = { id: string; name: string, email: string , image: string , createdAt : string , bio : string | null , stats : { published: number , drafts: number , views : number } } | null; 
 
 interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
@@ -82,7 +82,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (response.ok) {
         const data = await response.json();
         updateUser(data.user);
-        console.log("User logged in successfully:", data);
         router.replace("/dashboard");
       } else {
         const errorData = await response.json();
