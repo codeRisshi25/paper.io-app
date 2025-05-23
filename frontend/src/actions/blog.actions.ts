@@ -4,14 +4,14 @@
 import { cookies } from 'next/headers';
 
 interface ApiBlog { 
-  _id: string; 
+  _id?: string; 
   title: string;
   content: string | null;
   status: 'draft' | 'published';
-  updatedAt: string;
+  updatedAt?: string;
   tags: string[]; 
-  author: {name : string , email : string};
-  createdAt: string;
+  author?: {name : string , email : string};
+  createdAt?: string;
 }
 
 interface ApiResponse {
@@ -71,4 +71,71 @@ export async function getBlogById(id: string): Promise<ApiBlog> {  // Return typ
     ...data.blog,
     id: data.blog._id
   };
+}
+
+export async function onSaveBlog({blogData} : {blogData: ApiBlog}) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  
+  if (!token) {
+    throw new Error('Not authenticated');
+  }
+  
+  const cookieHeader = cookieStore.getAll().map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  
+  const res = await fetch(`${process.env.API_PUBLIC_API_URL}/api/blogs/drafts`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Cookie': cookieHeader 
+    },
+    body: JSON.stringify(blogData),
+  });
+  
+  if (!res.ok) {
+    const errorData = await res.json();
+    const errorBody = errorData.message || 'Unknown error';
+    throw new Error(`Failed to save blog: ${res.status} ${res.statusText} - ${errorBody}`);
+  }
+  
+  const data = await res.json();
+  
+  if (!data.success || !data.blog) {
+    throw new Error('Failed to save blog: API response format is incorrect.');
+  }
+  
+  return data.message;
+}
+
+export async function deleteBlog(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  
+  if (!token) {
+    throw new Error('Not authenticated');
+  }
+  
+  const cookieHeader = cookieStore.getAll().map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  
+  const res = await fetch(`${process.env.API_PUBLIC_API_URL}/api/blogs/${id}`, {
+    method: 'DELETE',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Cookie': cookieHeader 
+    },
+  });
+  
+  if (!res.ok) {
+    const errorData = await res.json();
+    const errorBody = errorData.message || 'Unknown error';
+    throw new Error(`Failed to delete blog: ${res.status} ${res.statusText} - ${errorBody}`);
+  }
+  
+  const data = await res.json();
+  
+  if (!data.success) {
+    throw new Error('Failed to delete blog: API response format is incorrect.');
+  }
+  
+  return data.message;
 }

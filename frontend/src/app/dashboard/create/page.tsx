@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import { EditorSkeleton } from '@/components/ui/editorSkeleton';
 import Tiptap from '@/components/Tiptap'; // Corrected import name
+import { onSaveBlog } from '@/actions/blog.actions';
 
 export default function CreateBlogPage() {
   const initialBlogData = {
@@ -19,7 +20,13 @@ export default function CreateBlogPage() {
       tags: tags, 
       status: status,
     };
-    console.log("Blog data to save:", blogData);
+    const res  = await onSaveBlog({ blogData });
+    if (res) {
+      console.log('Blog saved successfully:', res);
+    }
+    else {
+      console.error('Failed to save blog');
+    }
   };
   
   return (
