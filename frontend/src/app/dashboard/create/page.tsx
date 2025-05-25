@@ -2,9 +2,10 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { EditorSkeleton } from "@/components/ui/editorSkeleton";
-import Tiptap from "@/components/Tiptap"; // Corrected import name
+import Tiptap from "@/components/Tiptap"; 
 import { getUserBlog, onSaveBlog } from "@/actions/blog.actions";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -61,6 +62,7 @@ export default function CreateBlogPage() {
       const result = await onSaveBlog({ blogData });
       if (result) {
         console.log("Blog saved successfully:", result.message);
+        toast.success(result.message);
 
         // Store the blog ID from the response for future saves
         if (!blogId && result.blogId) {

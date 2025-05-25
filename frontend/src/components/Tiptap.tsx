@@ -8,6 +8,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
+
 interface TiptapProps {
   initialContent?: string;
   onSave: (
