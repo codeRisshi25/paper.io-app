@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,12 +9,12 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, PencilIcon, Trash2Icon } from "lucide-react";
+import { EyeIcon, PencilIcon, Trash2Icon, ArrowUpFromLine } from "lucide-react";
 import Link from "next/link";
-import BlogDeleteModal from '@/components/BlogDeleteModal';
-import { useRouter } from 'next/navigation';
+import BlogDeleteModal from "@/components/BlogDeleteModal";
+import { useRouter } from "next/navigation";
+import { publishBlog } from "@/actions/blog.actions";
 
-// Define the Blog interface, ensure it matches the one in your page
 interface Blog {
   _id?: string;
   title: string;
@@ -40,13 +40,14 @@ export default function BlogCardItem({ blog }: BlogCardItemProps) {
     router.refresh();
   };
 
-  const blogId = blog._id || blog.id; // Use _id primarily, fallback to id
+  const blogId = blog._id || blog.id;
+  if (!blogId) {
+    return null; // or handle the case where blogId is not available
+  }
 
   return (
     <>
-      <Card
-        className="dark:bg-slate-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex flex-col justify-between"
-      >
+      <Card className="dark:bg-slate-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex flex-col justify-between">
         <CardHeader className="pb-0">
           <CardTitle
             className="text-lg md:text-xl text-black dark:text-white truncate"
@@ -109,11 +110,22 @@ export default function BlogCardItem({ blog }: BlogCardItemProps) {
                 </Link>
               </Button>
             ) : (
-              <Button variant="default" size="sm" asChild className="w-full">
-                <Link href={`/dashboard/edit/${blogId}`}>
-                  <PencilIcon className="mr-2 h-4 w-4" /> Edit Draft
-                </Link>
-              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="default" size="sm" asChild className="w-full">
+                  <Link href={`/dashboard/edit/${blogId}`}>
+                    <PencilIcon className="mr-1 h-4 w-4" />
+                    Edit Draft
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => publishBlog(blogId)}
+                >
+                  <ArrowUpFromLine className="mr-1 h-4 w-4" /> Publish
+                </Button>
+              </div>
             )}
           </div>
           {blogId && (

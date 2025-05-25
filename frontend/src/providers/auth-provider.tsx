@@ -46,18 +46,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error("Failed to parse stored user data");
     }
 
-    // Then verify with the server (but don't block UI rendering)
     fetch(`${baseUrl}/api/auth/me`, { credentials: 'include' })
       .then(res => res.ok ? res.json() : Promise.reject())
       .then(userData => {
-        // Update localStorage with fresh data from server
         updateUser(userData);
         if (userData && window.location.pathname === '/auth/login') {
           router.replace("/dashboard");
         }
       })
       .catch(() => {
-        // If server check fails, clear stored user data
         updateUser(null);
       })
       .finally(() => setLoading(false));

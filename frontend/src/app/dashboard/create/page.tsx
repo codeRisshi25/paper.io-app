@@ -4,8 +4,10 @@ import { Suspense } from 'react';
 import { EditorSkeleton } from '@/components/ui/editorSkeleton';
 import Tiptap from '@/components/Tiptap'; // Corrected import name
 import { onSaveBlog } from '@/actions/blog.actions';
+import { useRouter } from 'next/navigation';
 
 export default function CreateBlogPage() {
+  const router = useRouter();
   const initialBlogData = {
     title: '',
     content: '', 
@@ -23,6 +25,7 @@ export default function CreateBlogPage() {
     const res  = await onSaveBlog({ blogData });
     if (res) {
       console.log('Blog saved successfully:', res);
+      router.push('/dashboard/blogs'); 
     }
     else {
       console.error('Failed to save blog');

@@ -72,7 +72,7 @@ export default async function MyBlogsPage() {
         </div>
         <Button
           variant="default"
-          className="py-2 px-4 text-sm font-medium flex items-center justify-center gap-2"
+          className="py-2 px-4 text-sm font-medium flex items-center justify-center gap-2 border-dotted border-2 border-black"
           asChild
         >
           <Link href="/dashboard/create">

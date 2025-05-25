@@ -1,6 +1,7 @@
 // app/blogs/actions.ts
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 
 interface ApiBlog { 
@@ -137,5 +138,39 @@ export async function deleteBlog(id: string) {
     throw new Error('Failed to delete blog: API response format is incorrect.');
   }
   
+  return data.message;
+}
+
+export async function publishBlog(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  
+  if (!token) {
+    throw new Error('Not authenticated');
+  }
+  
+  const cookieHeader = cookieStore.getAll().map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  
+  const res = await fetch(`${process.env.API_PUBLIC_API_URL}/api/blogs/publish/${id}`, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Cookie': cookieHeader 
+    },
+  });
+  
+  if (!res.ok) {
+    const errorData = await res.json();
+    const errorBody = errorData.message || 'Unknown error';
+    throw new Error(`Failed to publish blog: ${res.status} ${res.statusText} - ${errorBody}`);
+  }
+  
+  const data = await res.json();
+  
+  if (!data.success) {
+    throw new Error('Failed to publish blog: API response format is incorrect.');
+  }
+
+  revalidatePath('/dashboard');
   return data.message;
 }

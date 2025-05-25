@@ -118,11 +118,12 @@ export default function Tiptap({ initialContent = "", onSave }: TiptapProps) {
           <Button
             className="dark:bg-slate-900 hover:dark:bg-slate-800"
             variant="outline"
-            onClick={() => handleSave("draft")}
+            onClick={() =>
+               handleSave("draft")
+              }
           >
             Save Draft
           </Button>
-          <Button className="lg:mr-10" onClick={() => handleSave("published")}>Publish</Button>
         </div>
       </div>
       <EditorContent editor={editor} />
