@@ -96,6 +96,26 @@ class BlogController {
     }
   }
 
+  async getUserBlogById(req, res) {
+    try {
+      const { blogId } = req.params;
+      const userId = req.user.id;
+      const blog = await blogService.getUserBlogById(blogId, userId);
+      
+      res.status(200).json({
+        success: true,
+        blog,
+      });
+    } catch (error) {
+      console.error("Error fetching user blog:", error);
+      const status = error.message === "Blog not found" ? 404 : 400;
+      res.status(status).json({
+        success: false,
+        message: error.message || "Failed to fetch blog",
+      });
+    }
+  }
+
   async deleteBlog(req, res) {
     try {
       const { blogId } = req.params;

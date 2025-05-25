@@ -74,6 +74,40 @@ export async function getBlogById(id: string): Promise<ApiBlog> {  // Return typ
   };
 }
 
+export async function getUserBlog(id : string) : Promise<ApiBlog> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  
+  if (!token) {
+    throw new Error('Not authenticated');
+  }
+  
+  const cookieHeader = cookieStore.getAll().map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  
+  const res = await fetch(`${process.env.API_PUBLIC_API_URL}/api/blogs/myblog/${id}`, {
+    headers: { 
+      'Cookie': cookieHeader 
+    },
+    cache: 'no-store',
+  });
+  
+  if (!res.ok) {
+    const errorBody = await res.text();
+    throw new Error(`Failed to fetch blog: ${res.status} ${res.statusText} - ${errorBody}`);
+  }
+  
+  const data = await res.json();
+  
+  if (!data.success || !data.blog) {
+    throw new Error('Failed to fetch blog: API response format is incorrect.');
+  }
+  
+  return {
+    ...data.blog,
+    id: data.blog._id
+  };
+}
+
 export async function onSaveBlog({blogData} : {blogData: ApiBlog}) {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
@@ -105,7 +139,11 @@ export async function onSaveBlog({blogData} : {blogData: ApiBlog}) {
     throw new Error('Failed to save blog: API response format is incorrect.');
   }
   
-  return data.message;
+  return {
+    message: data.message,
+    blogId: data.blog._id,
+
+  }
 }
 
 export async function deleteBlog(id: string) {

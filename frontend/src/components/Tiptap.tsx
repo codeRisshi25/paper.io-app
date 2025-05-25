@@ -71,7 +71,6 @@ export default function Tiptap({ initialContent = "", onSave }: TiptapProps) {
       let h1Found = false;
 
       doc.content.forEach(node => {
-        // Title extraction from H1
         if (!h1Found && node.type.name === 'heading' && node.attrs.level === 1) {
           const h1Text = node.textContent.trim();
           if (h1Text.length > 0) {
@@ -89,7 +88,6 @@ export default function Tiptap({ initialContent = "", onSave }: TiptapProps) {
         }
       });
 
-      // Fallback title: if no H1 was found and there's content, use the first line
       if (!h1Found && doc.content.childCount > 0) {
         const firstNodeText = doc.content.child(0).textContent.trim();
         if (firstNodeText.length > 0) {

@@ -39,10 +39,14 @@ export default function BlogCardItem({ blog }: BlogCardItemProps) {
     setIsDeleteModalOpen(false);
     router.refresh();
   };
+  const handleEditClick = () => {
+  router.push(`/dashboard/create?blogId=${blogId}`);
+};
+
 
   const blogId = blog._id || blog.id;
   if (!blogId) {
-    return null; // or handle the case where blogId is not available
+    return null;
   }
 
   return (
@@ -111,11 +115,9 @@ export default function BlogCardItem({ blog }: BlogCardItemProps) {
               </Button>
             ) : (
               <div className="grid grid-cols-2 gap-2">
-                <Button variant="default" size="sm" asChild className="w-full">
-                  <Link href={`/dashboard/edit/${blogId}`}>
+                <Button variant="default" size="sm" className="w-full" onClick={handleEditClick}>
                     <PencilIcon className="mr-1 h-4 w-4" />
                     Edit Draft
-                  </Link>
                 </Button>
                 <Button
                   variant="outline"

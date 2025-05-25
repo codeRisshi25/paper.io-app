@@ -138,6 +138,27 @@ class BlogService {
       throw error;
     }
   }
+  async getUserBlogById(blogId, userId) {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(blogId)) {
+        throw new Error("Invalid blog ID");
+      }
+
+      const blog = await Blog.findOne({
+        _id: blogId,
+        author: userId
+      }).populate("author", "name email");
+
+      if (!blog) {
+        throw new Error("Blog not found or not authorized to access");
+      }
+
+      return blog;
+    } catch (error) {
+      console.error("Error fetching user blog by ID:", error);
+      throw error;
+    }
+  }
 
   async deleteBlog(blogId, userId) {
     try {
