@@ -64,7 +64,6 @@ export default function CreateBlogPage() {
         console.log("Blog saved successfully:", result.message);
         toast.success(result.message);
 
-        // Store the blog ID from the response for future saves
         if (!blogId && result.blogId) {
           setBlogId(result.blogId);
           window.history.replaceState(
